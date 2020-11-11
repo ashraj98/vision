@@ -72,4 +72,3 @@ class DiscoveryClient:
                 collection_id=DISCOVERY_COLLECTION_ID
             ).get_result()['results'])
         return games
-
