@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 
 from discovery import DiscoveryClient
@@ -19,10 +21,11 @@ if __name__ == '__main__':
     # build_cover(text, roi)
     client = DiscoveryClient()
     games = client.all_documents()
+    print(f"Started at {datetime.now().strftime('%H:%M:%S')}")
     for i, game in enumerate(games):
         if not check_game_processed(game['slug']):
             process_game(game)
-            print(f"#{i}: Processed {game['name']}")
+            print(f"#{i + 1}: Processed {game['name']} at {datetime.now().strftime('%H:%M:%S')}")
         else:
-            print(f"#{i}: Skipped {game['name']}")
+            print(f"#{i + 1}: Skipped {game['name']} at {datetime.now().strftime('%H:%M:%S')}")
     exit(0)
