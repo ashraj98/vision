@@ -24,6 +24,7 @@ protobuf==3.13.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pyparsing==2.4.7
+pytesseract==0.3.6
 python-dateutil==2.8.1
 pytz==2020.1
 PyWavelets==1.1.1
