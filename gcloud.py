@@ -9,7 +9,7 @@ def get_image_objects(path):
         content = image_file.read()
     image = vision.Image(content=content)
     annotations = vision_client.object_localization(image=image).localized_object_annotations
-    return annotations
+    return list(annotations)
 
 
 def label_objects_in_image(path):
