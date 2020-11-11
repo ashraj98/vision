@@ -1,3 +1,5 @@
+boto3==1.16.15
+botocore==1.19.15
 cachetools==4.1.1
 certifi==2020.6.20
 chardet==3.0.4
@@ -9,8 +11,11 @@ google-auth==1.22.1
 google-cloud-vision==2.0.0
 googleapis-common-protos==1.52.0
 grpcio==1.33.1
+ibm-cloud-sdk-core==1.7.3
+ibm-watson==4.7.1
 idna==2.10
 imageio==2.9.0
+jmespath==0.10.0
 kiwisolver==1.2.0
 libcst==0.3.13
 matplotlib==3.3.2
@@ -23,6 +28,7 @@ proto-plus==1.11.0
 protobuf==3.13.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
+PyJWT==1.7.1
 pyparsing==2.4.7
 pytesseract==0.3.6
 python-dateutil==2.8.1
@@ -31,6 +37,7 @@ PyWavelets==1.1.1
 PyYAML==5.3.1
 requests==2.24.0
 rsa==4.6
+s3transfer==0.3.3
 scikit-image==0.17.2
 scipy==1.5.3
 six==1.15.0
@@ -40,3 +47,4 @@ torchvision==0.7.0
 typing-extensions==3.7.4.3
 typing-inspect==0.6.0
 urllib3==1.25.11
+websocket-client==0.48.0

@@ -4,6 +4,7 @@ import numpy as np
 
 from gcloud import label_objects_in_image, detect_web_objects
 from ocr import extract_text_from_image
+from upload import upload_image
 
 
 def build_cover(text, roi):
@@ -38,6 +39,8 @@ def process_game(game):
     has_text = extract_text_from_image('data/cover.jpg')
     if has_text:
         text_img = cv2.imread('data/text/res.jpg')
+    else:
+        text_img = np.zeros((10, 20, 3), np.uint8)
 
     for idx, screenshot in enumerate(game['screenshots']):
         screenshot_url = f"https://images.igdb.com/igdb/image/upload/t_1080p/{screenshot['image_id']}.jpg"
@@ -46,4 +49,16 @@ def process_game(game):
         num_rois = label_objects_in_image(path=f'data/screenshot{idx}.jpg')
         for i in range(num_rois):
             labels = detect_web_objects(path=f'data/images/roi_{i}.png')
+            tags = [lbl[0] for lbl in labels['all_labels'] if lbl[1] > labels['all_labels'][0][1] * .65]
+            tags.extend(labels['best_guesses'] * 5)
             roi_img = cv2.imread(f'data/images/roi_{i}.png')
+            final_cover = build_cover(text_img, roi_img)
+            cv2.imwrite('data/cover.jpg', final_cover)
+            uid = upload_image('data/cover.jpg')
+            for tag in tags:
+                requests.post('http://localhost:8000/covers/', data={
+                    'game': game['slug'],
+                    'image': uid,
+                    'tag': tag,
+                    'size': roi_img.shape[0] * roi_img.shape[1]
+                })
