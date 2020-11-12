@@ -41,8 +41,8 @@ def process_game(game):
         text_img = cv2.imread('data/text/res.jpg')
     else:
         text_img = np.zeros((10, 20, 3), np.uint8)
-
-    for idx, screenshot in enumerate(game['screenshots']):
+    screenshots = game.get('screenshots', [])
+    for idx, screenshot in enumerate(screenshots):
         screenshot_url = f"https://images.igdb.com/igdb/image/upload/t_1080p/{screenshot['image_id']}.jpg"
         r = requests.get(screenshot_url, allow_redirects=True)
         open(f'data/screenshot{idx}.jpg', 'wb').write(r.content)
