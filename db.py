@@ -16,11 +16,25 @@ class DBClient:
         ''')
         self.conn.commit()
 
+    def drop_schema(self):
+        self.conn.execute('DROP TABLE IF EXISTS fonts')
+        self.conn.execute('DROP TABLE IF EXISTS images')
+        self.conn.commit()
+
     def add_font(self, name, style, weight, filename, ps_name, fullname):
         self.conn.execute('''
         INSERT INTO fonts
         VALUES (?, ?, ?, ?, ?, ?)
         ''', (name, style, weight, filename, ps_name, fullname))
+        self.conn.commit()
+
+    def bulk_add_fonts(self, fonts=None):
+        if fonts is None:
+            fonts = []
+        self.conn.executemany('''
+        INSERT INTO fonts
+        VALUES (?, ?, ?, ?, ?, ?)
+        ''', fonts)
         self.conn.commit()
 
     def add_image(self, filename, font_id):
