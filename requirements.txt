@@ -38,6 +38,7 @@ requests==2.24.0
 rsa==4.6
 s3transfer==0.3.3
 scipy==1.5.3
+selenium==3.141.0
 six==1.15.0
 tifffile==2020.10.1
 typing-extensions==3.7.4.3

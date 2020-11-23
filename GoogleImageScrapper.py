@@ -16,11 +16,11 @@ import struct
 import imghdr
 
 
-class GoogleImageScraper():
+class GoogleImageScraper:
     def __init__(self, webdriver_path, image_path, search_key="cat", number_of_images=1, headless=False,
                  min_resolution=(0, 0), max_resolution=(1920, 1080)):
         # check parameter types
-        if (type(number_of_images) != int):
+        if type(number_of_images) != int:
             print("GoogleImageScraper Error: Number of images must be integer value.")
             return
         if not os.path.exists(image_path):
@@ -48,7 +48,7 @@ class GoogleImageScraper():
         image_urls = []
         count = 0
         options = Options()
-        if (self.headless):
+        if self.headless:
             options.add_argument('--headless')
         try:
             driver = webdriver.Chrome(self.webdriver_path, chrome_options=options)
@@ -56,13 +56,14 @@ class GoogleImageScraper():
             time.sleep(5)
         except:
             print(
-                "[-] Please update the chromedriver.exe in the webdriver folder according to your chrome version:https://chromedriver.chromium.org/downloads")
+                "[-] Please update the chromedriver.exe in the webdriver folder according to your chrome "
+                "version:https://chromedriver.chromium.org/downloads")
 
-        for indx in range(1, self.number_of_images + 1):
+        for idx in range(1, self.number_of_images + 1):
             try:
                 # find and click image
-                imgurl = driver.find_element_by_xpath('//*[@id="islrg"]/div[1]/div[%s]/a[1]/div[1]/img' % (str(indx)))
-                imgurl.click()
+                img_url = driver.find_element_by_xpath('//*[@id="islrg"]/div[1]/div[%s]/a[1]/div[1]/img' % (str(idx)))
+                img_url.click()
 
                 # select image from the popup
                 time.sleep(3)
@@ -71,14 +72,14 @@ class GoogleImageScraper():
 
                     # only download images that ends with jpg/png/jpeg extensions
 
-                    if (image.get_attribute("src")[-3:].lower() in ["jpg", "png", "jpeg"]):
+                    if image.get_attribute("src")[-3:].lower() in ["jpg", "png", "jpeg"]:
                         print("%d. %s" % (count, image.get_attribute("src")))
                         image_urls.append(image.get_attribute("src"))
                         count += 1
                         break
 
                 # scroll page to load next image
-                driver.execute_script("window.scrollTo(0, " + str(indx * 150) + ");")
+                driver.execute_script("window.scrollTo(0, " + str(idx * 150) + ");")
                 time.sleep(3)
             except Exception as e:
                 print("GoogleImageScraper Skip: Unable to get the link for this photo")
@@ -139,13 +140,13 @@ class GoogleImageScraper():
                 try:
                     fhandle.seek(0)  # Read 0xff next
                     size = 2
-                    ftype = 0
-                    while not 0xc0 <= ftype <= 0xcf or ftype in (0xc4, 0xc8, 0xcc):
+                    f_type = 0
+                    while not 0xc0 <= f_type <= 0xcf or f_type in (0xc4, 0xc8, 0xcc):
                         fhandle.seek(size, 1)
                         byte = fhandle.read(1)
                         while ord(byte) == 0xff:
                             byte = fhandle.read(1)
-                        ftype = ord(byte)
+                        f_type = ord(byte)
                         size = struct.unpack('>H', fhandle.read(2))[0] - 2
                     # We are at a SOFn block
                     fhandle.seek(1, 1)  # Skip `precision' byte.
