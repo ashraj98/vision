@@ -1,4 +1,9 @@
 import os
+import random
+
+import cv2
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 
 from google.protobuf import text_format
 
@@ -26,3 +31,27 @@ def read_all_fonts(root_dir='data/fonts'):
                 ))
     fonts.sort()
     return fonts
+
+
+def random_text(font='/Library/Fonts/Arial.ttf'):
+    str_choices = 'abcdefghijklmnopqrstuvwxyz '
+    noise_var = 75
+    height = 100
+    width = 500
+    num_letters = 12
+    font_size = int(height * .8)
+    tl = (height - font_size) // 4
+    random_color = np.random.randint(low=0, high=255, size=(1, 1, 3), dtype=np.uint8)
+    noise = np.random.randint(low=-noise_var, high=noise_var, size=(height, width, 3))
+    pixels = (random_color + noise).astype(np.uint8)
+    pixels = cv2.medianBlur(pixels, 7)
+    bg = cv2.cvtColor(pixels, cv2.COLOR_BGR2RGB)
+    bg = Image.fromarray(bg)
+    d = ImageDraw.Draw(bg)
+    font = ImageFont.truetype(font, font_size)
+    text = ''.join(random.choices(str_choices, k=num_letters))
+    w, h = font.getsize(text)
+    if random.choice([True, False]):
+        text = text.upper()
+    d.text(((width - w) // 2, (height - h) // 2), text=text, font=font, fill=(255, 255, 255))
+    bg.save('data/pil/random_text.png')
