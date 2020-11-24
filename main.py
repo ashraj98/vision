@@ -11,5 +11,5 @@ def load_fonts_into_schema():
 
 
 if __name__ == '__main__':
-    random_text(font='data/fonts/ibmplexsans/IBMPlexSans-Bold.ttf')
+    random_text(font='data/fonts/amaticsc/AmaticSC-Bold.ttf')
     exit(0)

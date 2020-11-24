@@ -33,14 +33,12 @@ def read_all_fonts(root_dir='data/fonts'):
     return fonts
 
 
-def random_text(font='/Library/Fonts/Arial.ttf'):
+def random_text(font='/Library/Fonts/Arial.ttf', lowercase=True):
     str_choices = 'abcdefghijklmnopqrstuvwxyz '
-    noise_var = 75
+    noise_var = random.randint(50, 150)
     height = 100
     width = 500
-    num_letters = 12
     font_size = int(height * .8)
-    tl = (height - font_size) // 4
     random_color = np.random.randint(low=0, high=255, size=(1, 1, 3), dtype=np.uint8)
     noise = np.random.randint(low=-noise_var, high=noise_var, size=(height, width, 3))
     pixels = (random_color + noise).astype(np.uint8)
@@ -49,9 +47,9 @@ def random_text(font='/Library/Fonts/Arial.ttf'):
     bg = Image.fromarray(bg)
     d = ImageDraw.Draw(bg)
     font = ImageFont.truetype(font, font_size)
-    text = ''.join(random.choices(str_choices, k=num_letters))
-    w, h = font.getsize(text)
-    if random.choice([True, False]):
+    text = ''.join(random.choices(str_choices, k=random.randint(8, 16)))
+    if not lowercase:
         text = text.upper()
+    w, h = font.getsize(text)
     d.text(((width - w) // 2, (height - h) // 2), text=text, font=font, fill=(255, 255, 255))
     bg.save('data/pil/random_text.png')
