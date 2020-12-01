@@ -24,11 +24,11 @@ def read_all_fonts(root_dir='data/fonts'):
     for subdir, dirs, files in os.walk(root_dir):
         if 'METADATA.pb' in files:
             md = read_font_metadata(path=f'{subdir}/METADATA.pb')
-            for font in md.fonts:
-                fonts.append((
-                    font.name, font.style, font.weight, f'{subdir}/{font.filename}',
-                    font.post_script_name, font.full_name,
-                ))
+            font = random.choice(md.fonts)
+            fonts.append((
+                font.name, font.style, font.weight, f'{subdir}/{font.filename}',
+                font.post_script_name, font.full_name,
+            ))
     fonts.sort()
     return fonts
 
@@ -52,4 +52,8 @@ def random_text(font='/Library/Fonts/Arial.ttf', lowercase=True):
         text = text.upper()
     w, h = font.getsize(text)
     d.text(((width - w) // 2, (height - h) // 2), text=text, font=font, fill=(255, 255, 255))
+    final = cv2.cvtColor(np.array(bg), cv2.COLOR_RGB2BGR)
+    final = final - np.random.randint(low=0, high=255, size=(1, 1, 3), dtype=np.uint8)
+    bg = cv2.cvtColor(final, cv2.COLOR_BGR2RGB)
+    bg = Image.fromarray(bg)
     bg.save('data/pil/random_text.png')
