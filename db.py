@@ -55,6 +55,18 @@ class DBClient:
         result = [dict(row) for row in c.fetchall()]
         return result
 
+    def train_images(self):
+        c = self.conn.cursor()
+        c.execute('SELECT * FROM images WHERE id % 600 <= 500')
+        result = [dict(row) for row in c.fetchall()]
+        return result
+
+    def test_images(self):
+        c = self.conn.cursor()
+        c.execute('SELECT * FROM images WHERE id % 600 > 500')
+        result = [dict(row) for row in c.fetchall()]
+        return result
+
     def image_count_for_font(self, font_id):
         c = self.conn.cursor()
         c.execute('SELECT COUNT(*) FROM images WHERE font = ?', (font_id,))
