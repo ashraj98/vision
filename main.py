@@ -47,6 +47,8 @@ def generate_font_samples():
 
 
 if __name__ == '__main__':
+    generate_train_dataset()
+    generate_test_dataset()
     batch_size = 8
     X_train_filenames = np.load('data/train/x_filenames.npy')
     y_train = np.load('data/train/y_labels.npy')
@@ -56,10 +58,10 @@ if __name__ == '__main__':
     training_batch_generator = Generator(X_train_filenames, y_train, batch_size)
     validation_batch_generator = Generator(X_test_filenames, y_test, batch_size)
     model.fit(x=training_batch_generator,
-              steps_per_epoch=int(46092 // batch_size),
+              steps_per_epoch=int(9200 // batch_size),
               epochs=2,
               verbose=1,
               validation_data=validation_batch_generator,
-              validation_steps=int(9108 // batch_size))
+              validation_steps=int(920 // batch_size))
     model.save(filepath='models/font', overwrite=True, include_optimizer=True)
     exit(0)

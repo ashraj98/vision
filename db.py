@@ -57,13 +57,13 @@ class DBClient:
 
     def train_images(self):
         c = self.conn.cursor()
-        c.execute('SELECT * FROM images WHERE id % 600 <= 500')
+        c.execute('SELECT * FROM images WHERE id % 600 < 200')
         result = [dict(row) for row in c.fetchall()]
         return result
 
     def test_images(self):
         c = self.conn.cursor()
-        c.execute('SELECT * FROM images WHERE id % 600 > 500')
+        c.execute('SELECT * FROM images WHERE id % 600 > 579')
         result = [dict(row) for row in c.fetchall()]
         return result
 
