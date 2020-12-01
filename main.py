@@ -57,7 +57,7 @@ if __name__ == '__main__':
     validation_batch_generator = Generator(X_test_filenames, y_test, batch_size)
     model.fit(x=training_batch_generator,
               steps_per_epoch=int(46092 // batch_size),
-              epochs=10,
+              epochs=2,
               verbose=1,
               validation_data=validation_batch_generator,
               validation_steps=int(9108 // batch_size))
